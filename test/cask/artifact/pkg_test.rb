@@ -39,7 +39,7 @@ describe Cask::Artifact::Pkg do
       pkg = Cask::Artifact::Pkg.new(cask, Cask::FakeSystemCommand)
 
       Cask::FakeSystemCommand.stubs_command(
-        ['/usr/sbin/pkgutil', '--pkgs="my.fancy.package.*"'],
+        ['/usr/sbin/pkgutil', '--pkgs=my.fancy.package.*'],
         [
           'my.fancy.package.main',
           'my.fancy.package.agent',
