@@ -32,12 +32,12 @@ class Cask::SystemCommand
   end
 
   def self._process_options(executable, options)
-    command = Array(executable)
+    command = [executable]
     if options[:sudo]
       command.unshift('/usr/bin/sudo', '-E', '--')
     end
     if options[:args]
-      options[:args].map { |arg| command.push(arg) }
+      command.concat options[:args]
     end
     command
   end
