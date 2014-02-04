@@ -18,13 +18,12 @@ class Cask::FakeSystemCommand
   end
 
   def self.stubs_command(command, response='')
-    responses[command.map { |e| e.to_s }] = response
+    responses[command] = response
   end
 
   def self.expects_command(command, response='', times=1)
     stubs_command(command, response)
-    cmd = command.map { |e| e.to_s }
-    expectations[cmd] = times
+    expectations[command] = times
   end
 
   def self.verify_expectations!
@@ -36,15 +35,15 @@ class Cask::FakeSystemCommand
   end
 
   def self.run(command, options={})
-    cmd = Cask::SystemCommand._process_options(command, options).map { |e| e.to_s }
-    unless responses.key?(cmd)
-      fail("no response faked for #{cmd.inspect}, faked responses are: #{responses.inspect}")
+    command = Cask::SystemCommand._process_options(command, options)
+    unless responses.key?(command)
+      fail("no response faked for #{command.inspect}, faked responses are: #{responses.inspect}")
     end
-    system_calls[cmd] += 1
+    system_calls[command] += 1
     if options[:plist]
-      Plist::parse_xml(responses[cmd])
+      Plist::parse_xml(responses[command])
     else
-      responses[cmd]
+      responses[command]
     end
   end
 

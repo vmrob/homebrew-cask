@@ -155,8 +155,13 @@ describe Cask::Artifact::Pkg do
 
       Cask::FakeSystemCommand.stubs_command(['/usr/bin/sudo', '-E', '--', '/usr/sbin/pkgutil', '--forget', 'my.fancy.package.agent'])
 
-      Cask::FakeSystemCommand.stubs_command(['/usr/bin/sudo', '-E', '--', '/bin/rm', '-f', '--', '/tmp/fancy/bin/fancy.exe', '/tmp/fancy/var/fancy.data'])
-      Cask::FakeSystemCommand.stubs_command(['/usr/bin/sudo', '-E', '--', '/bin/rm', '-f', '--', '/tmp/fancy/agent/fancy-agent.exe', '/tmp/fancy/agent/fancy-agent.pid', '/tmp/fancy/agent/fancy-agent.log'])
+      Cask::FakeSystemCommand.stubs_command(['/usr/bin/sudo', '-E', '--', '/bin/rm', '-f', '--',
+                                             Pathname.new('/tmp/fancy/bin/fancy.exe'),
+                                             Pathname.new('/tmp/fancy/var/fancy.data')])
+      Cask::FakeSystemCommand.stubs_command(['/usr/bin/sudo', '-E', '--', '/bin/rm', '-f', '--',
+                                             Pathname.new('/tmp/fancy/agent/fancy-agent.exe'),
+                                             Pathname.new('/tmp/fancy/agent/fancy-agent.pid'),
+                                             Pathname.new('/tmp/fancy/agent/fancy-agent.log')])
 
       # No assertions after call since all assertions are implicit from the interactions setup above.
       # TODO: verify rmdir commands (requires setting up actual file tree or faking out .exists?

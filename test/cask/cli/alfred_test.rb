@@ -1,7 +1,7 @@
 require 'test_helper'
 
 def fake_alfred_preference(key, response)
-  Cask::FakeSystemCommand.stubs_command(['/usr/bin/defaults', 'read', 'com.runningwithcrayons.Alfred-Preferences', "#{key}"], response)
+  Cask::FakeSystemCommand.stubs_command(['/usr/bin/defaults', 'read', 'com.runningwithcrayons.Alfred-Preferences', key], response)
 end
 
 def fake_alfred_installed(installed=true)
