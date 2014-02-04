@@ -3,7 +3,7 @@ require 'open3'
 class Cask::SystemCommand
   def self.run(executable, options={})
     command = _process_options(executable, options)
-    odebug "Executing: #{command.join(' ')}"
+    odebug "Executing: #{command.inspect}"
     output = ''
     Open3.popen3(*command) do |stdin, stdout, stderr|
       if options[:input]
