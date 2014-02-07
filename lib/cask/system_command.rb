@@ -15,7 +15,8 @@ class Cask::SystemCommand
         ohai line.chomp if options[:print]
       end
       while line = stderr.gets
-        output << line if options[:stderr] != :silence && options[:stderr] == :merge
+        next if options[:stderr] == :silence
+        output << line
         ohai line.chomp if options[:print]
       end
     end
