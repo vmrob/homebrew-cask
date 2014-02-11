@@ -5,7 +5,7 @@ class Cask::Container::Air < Cask::Container::Base
 
   def extract
     executable = '/Applications/Utilities/Adobe AIR Application Installer.app/Contents/MacOS/Adobe AIR Application Installer'
-    args = ['-silent', '-location', @cask.destination_path, @path]
+    args = ['-silent', '-location', @cask.destination_path, Pathname.new(@path).realpath]
 
     if !Pathname(executable).exist?
       raise CaskError.new(<<-ERRMSG)
