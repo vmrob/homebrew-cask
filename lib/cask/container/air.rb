@@ -13,14 +13,6 @@ Error installing application: Adobe Air runtime not present, try installing via 
     ERRMSG
     end
 
-    begin
-      @command.run!(executable, :args => args)
-    rescue
-      raise CaskError.new(<<-ERRMSG)
-Error installing application.
-  command was:
-  #{executable} #{args.map { |arg| arg }.join(' ')}
-  ERRMSG
-    end
+    @command.run!(executable, :args => args)
   end
 end
