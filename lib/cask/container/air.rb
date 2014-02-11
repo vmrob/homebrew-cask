@@ -8,9 +8,12 @@ class Cask::Container::Air < Cask::Container::Base
     args = ['-silent', '-location', @cask.destination_path, @path]
 
     if !Pathname(executable).exist?
-      raise CaskError.new(<<-ERRMSG)
-Error installing application: Adobe Air runtime not present, try installing via `brew cask install adobe-air`
-    ERRMSG
+      raise CaskError.new <<-ERRMSG.undent
+      Error installing application: Adobe AIR runtime not present, try installing it via
+
+          brew cask install adobe-air
+
+      ERRMSG
     end
 
     begin
