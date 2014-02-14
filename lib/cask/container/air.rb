@@ -3,19 +3,29 @@ class Cask::Container::Air < Cask::Container::Base
     %w[.air].include?(criteria.path.extname)
   end
 
-  def extract
-    executable = '/Applications/Utilities/Adobe AIR Application Installer.app/Contents/MacOS/Adobe AIR Application Installer'
-    args = ['-silent', '-location', @cask.destination_path, Pathname.new(@path).realpath]
-
-    if !Pathname(executable).exist?
+  def self.installer_cmd
+    @installer_cmd ||= if installer_exist?
+      _installer_pathname
+    else
       raise CaskError.new <<-ERRMSG.undent
-      Error installing application: Adobe AIR runtime not present, try installing it via
+        Adobe AIR runtime not present, try installing it via
 
-          brew cask install adobe-air
+            brew cask install adobe-air
 
-      ERRMSG
+        ERRMSG
     end
+  end
 
-    @command.run!(executable, :args => args)
+  def self.installer_exist?
+    _installer_pathname.exist?
+  end
+
+  def self._installer_pathname
+    @_installer_pathname ||= Pathname.new('/Applications/Utilities/Adobe AIR Application Installer.app/Contents/MacOS/Adobe AIR Application Installer')
+  end
+
+  def extract
+    @command.run!(self.class.installer_cmd,
+                  :args => ['-silent', '-location', @cask.destination_path, Pathname.new(@path).realpath])
   end
 end
